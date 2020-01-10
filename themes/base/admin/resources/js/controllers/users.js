@@ -512,8 +512,17 @@ module.controller('UserDetailCtrl', function($scope, realm, user, BruteForceUser
     $http.get("http://172.16.11.98:8060/company/companies/")
 	  .then(function(response) {
 		  $scope.myWelcome = response.data;
-		  console.log(response.data);
 		  $scope.realm.companies = response.data;
+	});
+	
+	var s = $( document.querySelector( '#type_user' ) );
+	
+	$scope.$watch('user.attributes.type_user', function(value) {
+		if(value == 'administrador'){
+			$scope.showCompany = true;
+		}else{
+			$scope.showCompany = false;
+		}
 	});
 	/**Fin seccion agregada por infovisual*/
 });

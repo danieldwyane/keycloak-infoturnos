@@ -10,14 +10,15 @@
     <form class="form-horizontal" name="userForm" novalidate kc-read-only="!create && !user.access.manage">
 
         <fieldset class="border-top">
-            <div class="form-group">
+			<!--Seccion modificada por infovisual-->
+            <div class="form-group" style="display:none;">
                 <label class="col-md-2 control-label"for="id">{{:: 'id' | translate}}</label>
                 <div class="col-md-6">
                     <input class="form-control" type="text" id="id" name="id" data-ng-model="user.id" autofocus data-ng-readonly="true">
                 </div>
             </div>
-            
-            <div class="form-group">
+            <!--Seccion modificada por infovisual-->
+            <div class="form-group" style="display:none;">
                 <label class="col-md-2 control-label"for="id">{{:: 'created-at' | translate}}</label>
                 <div class="col-md-6">
                     {{user.createdTimestamp|date:'shortDate'}}&nbsp;{{user.createdTimestamp|date:'mediumTime'}}
@@ -42,6 +43,17 @@
                            data-ng-model="user.email">
                 </div>
             </div>
+			
+			<!--Seccion agregada por infovisual-->
+			<div class="form-group">
+                <label class="col-md-2 control-label" for="phone">{{:: 'phone' | translate}}</label>
+
+                <div class="col-md-6">
+                    <input class="form-control" type="text" name="user.attributes.telefono" id="user.attributes.telefono" ng-model="user.attributes.telefono">
+                </div>
+            </div>
+			<!--Fin seccion agregada por infovisual-->
+
             <div class="form-group">
                 <label class="col-md-2 control-label" for="firstName">{{:: 'first-name' | translate}}</label>
 
@@ -58,6 +70,27 @@
                            data-ng-model="user.lastName">
                 </div>
             </div>
+			
+			<!--Seccion agregada por infovisual-->
+			<div class="form-group">
+                <label class="col-md-2 control-label" for="identity">{{:: 'identity' | translate}}</label>
+
+                <div class="col-md-6">
+                    <input class="form-control" type="text" name="user.attributes.identidad" id="user.attributes.identidad" ng-model="user.attributes.identidad">
+                </div>
+            </div>
+			<!--Fin seccion agregada por infovisual-->
+			
+			<!--Seccion agregada por infovisual-->
+			<div class="form-group">
+                <label class="col-md-2 control-label" for="type_user">{{:: 'type_user' | translate}}</label>
+
+                <div class="col-md-6">
+                    <input type="radio" name="user.attributes.type_user" id="user.attributes.type_user" ng-model="user.attributes.type_user" value="administrador"> Administrador<br>
+					<input type="radio" name="user.attributes.type_user" id="user.attributes.type_user" ng-model="user.attributes.type_user" value="administradorEmpresa"> Administrador Empresa<br>
+                </div>
+            </div>
+			<!--Fin seccion agregada por infovisual-->
 
             <div class="form-group clearfix block">
                 <label class="col-md-2 control-label" for="userEnabled">{{:: 'user-enabled' | translate}}</label>
@@ -90,14 +123,16 @@
                 </div>
                 <kc-tooltip>{{:: 'user-origin.tooltip' | translate}}</kc-tooltip>
             </div>
-            <div class="form-group clearfix block">
+			<!--Seccion modificada por infovisual-->
+            <div class="form-group clearfix block" style="display:none;">
                 <label class="col-md-2 control-label" for="emailVerified">{{:: 'email-verified' | translate}}</label>
                 <div class="col-md-6">
                     <input ng-model="user.emailVerified" name="emailVerified" id="emailVerified" ng-disabled="!create && !user.access.manage" onoffswitch on-text="{{:: 'onText' | translate}}" off-text="{{:: 'offText' | translate}}"/>
                 </div>
                 <kc-tooltip>{{:: 'email-verified.tooltip' | translate}}</kc-tooltip>
             </div>
-            <div class="form-group clearfix">
+			<!--Seccion modificada por infovisual-->
+            <div class="form-group clearfix" style="display:none;">
                 <label class="col-md-2 control-label" for="reqActions">{{:: 'required-user-actions' | translate}}</label>
 
                 <div class="col-md-6">
@@ -108,7 +143,8 @@
                 <kc-tooltip>{{:: 'required-user-actions.tooltip' | translate}}</kc-tooltip>
             </div>
 
-            <div class="form-group clearfix" data-ng-if="realm.internationalizationEnabled">
+			<!--Seccion modificada por infovisual-->
+            <div class="form-group clearfix" style="display:none;" data-ng-if="realm.internationalizationEnabled">
                 <label class="col-md-2 control-label" for="locale">{{:: 'locale' | translate}}</label>
                 <div class="col-md-6">
                     <div>
@@ -121,8 +157,23 @@
                     </div>
                 </div>
             </div>
+			
+			<!--Seccion agregada por infovisual-->
+			<div class="form-group clearfix" ng-if="!showCompany">
+                <label class="col-md-2 control-label" for="locale">Empresa</label>
+                <div class="col-md-6">
+                    <div>
+                        <select class="form-control" id="companie"
+                                ng-model="user.attributes.company"
+                                ng-options="o.id as o.company for o in realm.companies">
+                            <option value="" disabled selected>{{:: 'select-one.placeholder' | translate}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+			<!--Fin seccion agregada por infovisual-->
 
-            <div class="form-group clearfix" data-ng-hide="create || !access.impersonation">
+            <div class="form-group clearfix" style="display:none;" data-ng-hide="create || !access.impersonation">
                 <label class="col-md-2 control-label" for="impersonate">{{:: 'impersonate-user' | translate}}</label>
 
                 <div class="col-md-6">
