@@ -507,24 +507,6 @@ module.controller('UserDetailCtrl', function($scope, realm, user, BruteForceUser
     $scope.removeAttribute = function(key) {
         delete $scope.user.attributes[key];
     }
-	
-	/**Seccion agregada por infovisual*/
-    $http.get("http://172.16.11.98:8060/company/companies/")
-	  .then(function(response) {
-		  $scope.myWelcome = response.data;
-		  $scope.realm.companies = response.data;
-	});
-	
-	var s = $( document.querySelector( '#type_user' ) );
-	
-	$scope.$watch('user.attributes.type_user', function(value) {
-		if(value == 'administrador'){
-			$scope.showCompany = true;
-		}else{
-			$scope.showCompany = false;
-		}
-	});
-	/**Fin seccion agregada por infovisual*/
 });
 
 module.controller('UserCredentialsCtrl', function($scope, realm, user, $route, RequiredActions, User, UserExecuteActionsEmail, UserCredentials, Notifications, Dialog, TimeUnit2) {
