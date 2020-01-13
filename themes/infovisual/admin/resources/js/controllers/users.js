@@ -303,7 +303,7 @@ module.controller('UserListCtrl', function($scope, realm, User, UserSearchState,
             urlBusqueda ="&search="+ $scope.query.search;
         }
         $http.get(authUrl + '/admin/realms/' + realm.realm + '/users?realm=infovisual'+urlBusqueda)
-        .then(function(response) {            
+        .then(function(response) {           
             $scope.usuarios=response.data;
             let usuariosFiltradosEmpresa= new Array();
             $scope.usuarios.forEach(usuario => { 
@@ -323,12 +323,14 @@ module.controller('UserListCtrl', function($scope, realm, User, UserSearchState,
                 }
             });
             if($scope.idCompany!=0)
-            {
-                $scope.users=usuariosFiltradosEmpresa;
-            }else
-            {
-                $scope.users=response.data;                
-            }            
+            {               
+                $scope.usuarios=usuariosFiltradosEmpresa;
+            }
+
+            if($scope.usuarios!=null&&$scope.usuarios.length>0)
+             {
+               $scope.users=$scope.usuarios.splice($scope.query.first,$scope.query.max);
+             }  
             $scope.searchLoaded = true;
             $scope.lastSearch = $scope.query.search;
             UserSearchState.isFirstSearch = false;
