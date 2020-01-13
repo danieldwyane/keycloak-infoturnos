@@ -8,14 +8,27 @@
         <tr>
             <th colspan="{{access.impersonation == true ? '8' : '7'}}">
                 <div class="form-inline">
+                    <div class="pull-left">
+                    <!-- Seccion agregada por infovisual -->
+                    <label class="col-md-3 control-label">Empresa</label>
+                    <div class="col-md-5">
+                        <div>
+                            <select class="form-control" id="companie"
+                                    ng-model="idCompany"
+                                    ng-options="o.id as o.company for o in realm.companies" >                              
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                    <!-- Fin agregada por infovisual -->
                     <div class="form-group">
                         <div class="input-group">
                             <input type="text" placeholder="{{:: 'search.placeholder' | translate}}" data-ng-model="query.search" class="form-control search" onkeydown="if (event.keyCode == 13) document.getElementById('userSearch').click()">
                             <div class="input-group-addon">
                                     <i class="fa fa-search" id="userSearch" data-ng-click="firstPage()"></i>
-                            </div>
-                        </div>
+                            </div>                            
                     </div>
+
                     <button id="viewAllUsers" class="btn btn-default" ng-click="query.search = null; firstPage()">{{:: 'view-all-users' | translate}}</button>
 
                     <div class="pull-right" data-ng-show="access.manageUsers">
@@ -32,7 +45,7 @@
             <th class="w-15">{{:: 'email' | translate}}</th>
             <th class="w-15">{{:: 'last-name' | translate}}</th>
             <th class="w-15">{{:: 'first-name' | translate}}</th>
-			<th class="w-15">Empresa</th>
+            <th class="w-15">Empresa</th>
             <th colspan="{{serverInfo.featureEnabled('IMPERSONATION') && access.impersonation == true ? '3' : '2'}}">{{:: 'actions' | translate}}</th>
         </tr>
         </thead>
@@ -54,7 +67,7 @@
             <td class="clip">{{user.email}}</td>
             <td class="clip">{{user.lastName}}</td>
             <td class="clip">{{user.firstName}}</td>
-			<td class="clip">{{user.company}}</td>
+            <td class="clip">{{user.attributes.company[0]}}</td>
             <td class="kc-action-cell" kc-open="/realms/{{realm.realm}}/users/{{user.id}}">{{:: 'edit' | translate}}</td>
             <td data-ng-show="serverInfo.featureEnabled('IMPERSONATION') && access.impersonation" class="kc-action-cell" data-ng-click="impersonate(user.id)">{{:: 'impersonate' | translate}}</td>
             <td data-ng-show="user.access.manage" class="kc-action-cell" data-ng-click="removeUser(user)">{{:: 'delete' | translate}}</td>

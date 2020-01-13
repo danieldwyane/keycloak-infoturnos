@@ -232,17 +232,27 @@ module.controller('UserOfflineSessionsCtrl', function($scope, $location, realm, 
 });
 
 
-module.controller('UserListCtrl', function($scope, realm, User, UserSearchState, UserImpersonation, BruteForce, Notifications, $route, Dialog) {
-
+module.controller('UserListCtrl', function($scope, realm, User, UserSearchState, UserImpersonation, BruteForce, Notifications, $route, Dialog, $http) {
+    
     $scope.init = function() {
         $scope.realm = realm;
-
+        $scope.idCompany = 0;
         UserSearchState.query.realm = realm.realm;
         $scope.query = UserSearchState.query;
         $scope.query.briefRepresentation = 'true';
-
+        $scope.usuarios = null;
+        $scope.query.max = 15;        
+        /**Seccion agregada por infovisual*/    
+        $http.get("http://172.16.11.98:8060/company/companies/")
+        .then(function(response) {    
+            response.data.push({id:0,company:"TODAS"});
+            $scope.realm.companies = response.data;
+        });   
+        
+        /**Fin agregada por infovisual*/    
         if (!UserSearchState.isFirstSearch) $scope.searchQuery();
     };
+
 
     $scope.impersonate = function(userId) {
         UserImpersonation.save({realm : realm.realm, user: userId}, function (data) {
@@ -280,14 +290,50 @@ module.controller('UserListCtrl', function($scope, realm, User, UserSearchState,
     }
 
     $scope.searchQuery = function() {
-        console.log("query.search: " + $scope.query.search);
         $scope.searchLoaded = false;
-
-        $scope.users = User.query($scope.query, function() {
+         // $scope.users = User.query($scope.query, function() {
+        //     $scope.searchLoaded = true;
+        //     $scope.lastSearch = $scope.query.search;
+        //     UserSearchState.isFirstSearch = false;            
+        // });
+        /**Seccion agregada por infovisual*/    
+        let urlBusqueda ="";
+        if($scope.query.search!=null)
+        {
+            urlBusqueda ="&search="+ $scope.query.search;
+        }
+        $http.get(authUrl + '/admin/realms/' + realm.realm + '/users?realm=infovisual'+urlBusqueda)
+        .then(function(response) {            
+            $scope.usuarios=response.data;
+            let usuariosFiltradosEmpresa= new Array();
+            $scope.usuarios.forEach(usuario => { 
+                if(usuario.attributes!=undefined&&usuario.attributes.company!=undefined)
+                {                  
+                    let NameCompany=$scope.realm.companies.find(function(company) {
+                        return company.id== usuario.attributes.company[0];               
+                        });
+                    if(NameCompany!=undefined)
+                    {
+                        let idCompanyUsuario= usuario.attributes.company[0]; 
+                        usuario.attributes.company[0]= NameCompany.company;
+                        if($scope.idCompany!=0 && idCompanyUsuario==$scope.idCompany){
+                            usuariosFiltradosEmpresa.push(usuario);
+                        } 
+                    }
+                }
+            });
+            if($scope.idCompany!=0)
+            {
+                $scope.users=usuariosFiltradosEmpresa;
+            }else
+            {
+                $scope.users=response.data;                
+            }            
             $scope.searchLoaded = true;
             $scope.lastSearch = $scope.query.search;
             UserSearchState.isFirstSearch = false;
-        });
+      });  
+     /**fin agregada por infovisual*/
     };
 
     $scope.removeUser = function(user) {
@@ -307,7 +353,7 @@ module.controller('UserListCtrl', function($scope, realm, User, UserSearchState,
                 Notifications.error("User couldn't be deleted");
             });
         });
-    };
+    }; 
 });
 
 
