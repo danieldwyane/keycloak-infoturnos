@@ -337,7 +337,7 @@ module.controller('UserListCtrl', function($scope, realm, User, UserSearchState,
     };
 
     $scope.removeUser = function(user) {
-        Dialog.confirmDelete(user.id, 'user', function() {
+        Dialog.confirmDelete(user.id, 'usuario', function() {
             user.$remove({
                 realm : realm.realm,
                 userId : user.id
@@ -359,7 +359,7 @@ module.controller('UserListCtrl', function($scope, realm, User, UserSearchState,
 
 module.controller('UserTabCtrl', function($scope, $location, Dialog, Notifications, Current) {
     $scope.removeUser = function() {
-        Dialog.confirmDelete($scope.user.id, 'user', function() {
+        Dialog.confirmDelete($scope.user.id, 'usuario', function() {
             $scope.user.$remove({
                 realm : Current.realm.realm,
                 userId : $scope.user.id

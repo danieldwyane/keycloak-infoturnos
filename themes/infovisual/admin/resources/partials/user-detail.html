@@ -26,7 +26,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-md-2 control-label"for="username">{{:: 'username' | translate}} <span class="required" data-ng-show="create">*</span></label>
+                <label class="col-md-2 control-label" for="username">{{:: 'username' | translate}} <span class="required" data-ng-show="create">*</span></label>
                 <div class="col-md-6">
                     <!-- Characters >,<,/,\ are forbidden in username -->
                     <input class="form-control" type="text" id="username" name="username" data-ng-model="user.username" autofocus
@@ -36,10 +36,10 @@
 
 
             <div class="form-group">
-                <label class="col-md-2 control-label" for="email">{{:: 'email' | translate}}</label>
+                <label class="col-md-2 control-label" for="email">{{:: 'email' | translate}} <span class="required" data-ng-show="create">*</span></label>
 
                 <div class="col-md-6">
-                    <input class="form-control" type="email" name="email" id="email"
+                    <input class="form-control" type="email" name="email" id="email" required
                            data-ng-model="user.email">
                 </div>
             </div>
@@ -55,28 +55,29 @@
 			<!--Fin seccion agregada por infovisual-->
 
             <div class="form-group">
-                <label class="col-md-2 control-label" for="firstName">{{:: 'first-name' | translate}}</label>
+                <label class="col-md-2 control-label" for="firstName">{{:: 'first-name' | translate}} <span class="required" data-ng-show="create">*</span></label>
 
                 <div class="col-md-6">
-                    <input class="form-control" type="text" name="firstName" id="firstName"
+                    <input class="form-control" type="text" name="firstName" id="firstName" required
                            data-ng-model="user.firstName">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-2 control-label" for="lastName">{{:: 'last-name' | translate}}</label>
+                <label class="col-md-2 control-label" for="lastName">{{:: 'last-name' | translate}} <span class="required" data-ng-show="create">*</span></label>
 
                 <div class="col-md-6">
-                    <input class="form-control" type="text" name="lastName" id="lastName"
+                    <input class="form-control" type="text" name="lastName" id="lastName" required
                            data-ng-model="user.lastName">
                 </div>
             </div>
 			
 			<!--Seccion agregada por infovisual-->
 			<div class="form-group">
-                <label class="col-md-2 control-label" for="identity">{{:: 'identity' | translate}}</label>
+                <label class="col-md-2 control-label" for="identity">{{:: 'identity' | translate}} <span class="required" data-ng-show="create">*</span></label>
 
                 <div class="col-md-6">
-                    <input class="form-control" type="text" name="user.attributes.identidad" id="user.attributes.identidad" ng-model="user.attributes.identidad">
+                    <input class="form-control" type="text" name="user.attributes.identidad" id="user.attributes.identidad" required
+							ng-model="user.attributes.identidad">
                 </div>
             </div>
 			<!--Fin seccion agregada por infovisual-->
@@ -90,11 +91,11 @@
             </div>
 			<!--Seccion agregada por infovisual-->
 			<div class="form-group">
-                <label class="col-md-2 control-label" for="type_user">{{:: 'type_user' | translate}}</label>
+                <label class="col-md-2 control-label" for="type_user">{{:: 'type_user' | translate}} <span class="required" data-ng-show="create">*</label>
 
                 <div class="col-md-6">
-                    <input type="radio" name="user.attributes.type_user" id="user.attributes.type_user" ng-model="user.attributes.type_user" value="3edee2ae-5f34-430f-bab7-638658034b1d"> Administrador<br>
-					<input type="radio" name="user.attributes.type_user" id="user.attributes.type_user" ng-model="user.attributes.type_user" value="94ce09a7-6dc7-4ace-a51a-e2d6855d60a6"> Administrador Empresa<br>
+                    <input type="radio" name="user.attributes.type_user" id="user.attributes.type_user" ng-model="user.attributes.type_user" value="3edee2ae-5f34-430f-bab7-638658034b1d" ng-required="!user.attributes.type_user"> Administrador<br>
+					<input type="radio" name="user.attributes.type_user" id="user.attributes.type_user" ng-model="user.attributes.type_user" value="94ce09a7-6dc7-4ace-a51a-e2d6855d60a6" ng-required="!user.attributes.type_user"> Administrador Empresa<br>
                 </div>
             </div>
 			<!--Fin seccion agregada por infovisual-->
@@ -159,12 +160,13 @@
 			
 			<!--Seccion agregada por infovisual-->
 			<div class="form-group clearfix" ng-if="showCompany">
-                <label class="col-md-2 control-label" for="locale">Empresa</label>
+                <label class="col-md-2 control-label" for="locale">Empresa <span class="required" data-ng-show="create">*</label>
                 <div class="col-md-6">
                     <div>
                         <select class="form-control" id="companie"
                                 ng-model="user.attributes.company"
-                                ng-options="o.id as o.company for o in realm.companies">
+                                ng-options="o.id as o.company for o in realm.companies"
+								required>
                         </select>
                     </div>
                 </div>
