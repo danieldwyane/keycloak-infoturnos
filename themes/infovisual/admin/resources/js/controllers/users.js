@@ -334,6 +334,7 @@ module.controller('UserDetailCtrl', function($scope, realm, user, BruteForceUser
                                              $location, $http, Dialog, Notifications) {
     $scope.realm = realm;
     $scope.create = !user.id;
+	$scope.companySelect=0;
     $scope.editUsername = $scope.create || $scope.realm.editUsernameAllowed;
 	var idRole;
 
@@ -578,8 +579,13 @@ module.controller('UserDetailCtrl', function($scope, realm, user, BruteForceUser
 	/**Seccion agregada por infovisual*/
     $http.get("http://172.16.11.98:8060/company/companies/")
 	  .then(function(response) {
-		  $scope.myWelcome = response.data;
+		  response.data.push({id:0,company:"Selecione"});
 		  $scope.realm.companies = response.data;
+		  for(var i=0; i<response.data.length; i++){
+			if(response.data[i].id == user.attributes.company){
+				$scope.user.attributes.company = response.data[i].id;
+			}
+		  }
 	});
 
 	$scope.$watch('user.attributes.type_user', function(value) {
