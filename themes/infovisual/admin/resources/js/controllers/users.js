@@ -486,8 +486,7 @@ module.controller('UserDetailCtrl', function($scope, realm, user, BruteForceUser
         }
     }, true);
 
-    $scope.save = function() {
-        convertAttributeValuesToLists();
+    $scope.save = function() {       
         $http.get(authUrl + '/admin/realms/' + realm.realm + '/users?realm=infovisual')
         .then(function(response) {       
             let  identidadDuplicada=false;  
@@ -504,6 +503,7 @@ module.controller('UserDetailCtrl', function($scope, realm, user, BruteForceUser
             });
             if(!identidadDuplicada)
             {     
+                convertAttributeValuesToLists();
                 if ($scope.create) {
                     User.save({
                         realm: realm.realm
