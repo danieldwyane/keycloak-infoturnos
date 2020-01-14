@@ -382,10 +382,8 @@ module.controller('UserDetailCtrl', function($scope, realm, user, BruteForceUser
                                              $location, $http, Dialog, Notifications) {
     $scope.realm = realm;
     $scope.create = !user.id;
-	$scope.companySelect=0;
     $scope.editUsername = $scope.create || $scope.realm.editUsernameAllowed;
 	var idRole;
-
     if ($scope.create) {
         $scope.user = { enabled: true, attributes: {} }
     } else {
@@ -490,106 +488,126 @@ module.controller('UserDetailCtrl', function($scope, realm, user, BruteForceUser
 
     $scope.save = function() {
         convertAttributeValuesToLists();
-
-        if ($scope.create) {
-            User.save({
-                realm: realm.realm
-            }, $scope.user, function (data, headers) {
-                $scope.changed = false;
-                convertAttributeValuesToString($scope.user);
-                user = angular.copy($scope.user);
-                var l = headers().location;
-
-                console.debug("Location == " + l);
-
-                var id = l.substring(l.lastIndexOf("/") + 1);
-				/**Seccion agregada por infovisual*/
-				console.log('creacion usuario'+id);
-				var roleToAdd = [];
-				
-				if(idRole[0] == '94ce09a7-6dc7-4ace-a51a-e2d6855d60a6'){
-					roleToAdd = [
-					  {
-						id: idRole[0],
-						name: "Administrador Empresa",
-						description: "Para ver empresas",
-						composite: true,
-						clientRole: false,
-						containerId: "infovisual"
-					  }
-					];
-				}else{
-					roleToAdd = [
-					  {
-						id: idRole[0],
-						name: "Administrador",
-						description: "Para ver usuarios",
-						composite: true,
-						clientRole: false,
-						containerId: "infovisual"
-					  }
-					];
-				}
-
-				$http.post(authUrl + '/admin/realms/' + realm.realm + '/users/' + id + '/role-mappings/realm', roleToAdd);
-              
-                Notifications.success("Role mappings updated.");
-				/**Fin seccion agregada por infovisual*/
-
-                $location.url("/realms/" + realm.realm + "/users/" + id);
-                Notifications.success("El usuario ha sido creado.");
+        $http.get(authUrl + '/admin/realms/' + realm.realm + '/users?realm=infovisual')
+        .then(function(response) {       
+            let  identidadDuplicada=false;  
+            let usuarios =response.data;            
+            usuarios.forEach(usuario => {        
+                if(usuario.attributes!=undefined
+                    && usuario.attributes.identidad!=undefined
+                    && usuario.attributes.identidad.toString()==$scope.user.attributes.identidad.toString()
+                    && usuario.id!=$scope.user.id)
+                {                  
+                    identidadDuplicada= true;  
+                    return;       
+                }
             });
-        } else {
-			/**Seccion agregada por infovisual*/
-			//Si se cambia a rol administrador entonces se le desasocia la empresa
-			if($scope.user.attributes.type_user == "3edee2ae-5f34-430f-bab7-638658034b1d"){
-				delete $scope.user.attributes["company"];
-			}
-			/**Fin seccion agregada por infovisual*/
-            User.update({
-                realm: realm.realm,
-                userId: $scope.user.id
-            }, $scope.user, function () {
-                $scope.changed = false;
-                convertAttributeValuesToString($scope.user);
-                user = angular.copy($scope.user);
-                Notifications.success("Tus cambios han sido guardados.");
-            });
-			
-			/**Seccion agregada por infovisual*/
-			console.log('creacion usuario'+id);
-			console.log('creacion usuario'+$scope.user);
-			var roleToAdd = [];
-			console.log("role"+idRole);
-			if(idRole == '94ce09a7-6dc7-4ace-a51a-e2d6855d60a6'){
-				roleToAdd = [
-				  {
-					id: idRole,
-					name: "Administrador Empresa",
-					description: "Para ver empresas",
-					composite: true,
-					clientRole: false,
-					containerId: "infovisual"
-				  }
-				];
-			}else{
-				roleToAdd = [
-				  {
-					id: idRole,
-					name: "Administrador",
-					description: "Para ver usuarios",
-					composite: true,
-					clientRole: false,
-					containerId: "infovisual"
-				  }
-				];
-			}
-			console.log(roleToAdd);
-			console.log('usuario'+$scope.user.id);
-
-			$http.post(authUrl + '/admin/realms/' + realm.realm + '/users/' + $scope.user.id + '/role-mappings/realm', roleToAdd);
-			/**Fin seccion agregada por infovisual*/
-        }
+            if(!identidadDuplicada)
+            {     
+                if ($scope.create) {
+                    User.save({
+                        realm: realm.realm
+                    }, $scope.user, function (data, headers) {
+                        $scope.changed = false;
+                        convertAttributeValuesToString($scope.user);
+                        user = angular.copy($scope.user);
+                        var l = headers().location;
+        
+                        console.debug("Location == " + l);
+        
+                        var id = l.substring(l.lastIndexOf("/") + 1);
+                        /**Seccion agregada por infovisual*/
+                        console.log('creacion usuario'+id);
+                        var roleToAdd = [];
+                        
+                        if(idRole[0] == '94ce09a7-6dc7-4ace-a51a-e2d6855d60a6'){
+                            roleToAdd = [
+                              {
+                                id: idRole[0],
+                                name: "Administrador Empresa",
+                                description: "Para ver empresas",
+                                composite: true,
+                                clientRole: false,
+                                containerId: "infovisual"
+                              }
+                            ];
+                        }else{
+                            roleToAdd = [
+                              {
+                                id: idRole[0],
+                                name: "Administrador",
+                                description: "Para ver usuarios",
+                                composite: true,
+                                clientRole: false,
+                                containerId: "infovisual"
+                              }
+                            ];
+                        }
+        
+                        $http.post(authUrl + '/admin/realms/' + realm.realm + '/users/' + id + '/role-mappings/realm', roleToAdd);
+                      
+                        Notifications.success("Role mappings updated.");
+                        /**Fin seccion agregada por infovisual*/
+        
+                        $location.url("/realms/" + realm.realm + "/users/" + id);
+                        Notifications.success("El usuario ha sido creado.");
+                    });
+                } else {
+                    /**Seccion agregada por infovisual*/
+                    //Si se cambia a rol administrador entonces se le desasocia la empresa
+                    if($scope.user.attributes.type_user == "3edee2ae-5f34-430f-bab7-638658034b1d"){
+                        delete $scope.user.attributes["company"];
+                    }
+                    /**Fin seccion agregada por infovisual*/
+                    User.update({
+                        realm: realm.realm,
+                        userId: $scope.user.id
+                    }, $scope.user, function () {
+                        $scope.changed = false;
+                        convertAttributeValuesToString($scope.user);
+                        user = angular.copy($scope.user);
+                        Notifications.success("Tus cambios han sido guardados.");
+                    });
+                    
+                    /**Seccion agregada por infovisual*/
+                    console.log('creacion usuario'+id);
+                    console.log('creacion usuario'+$scope.user);
+                    var roleToAdd = [];
+                    console.log("role"+idRole);
+                    if(idRole == '94ce09a7-6dc7-4ace-a51a-e2d6855d60a6'){
+                        roleToAdd = [
+                          {
+                            id: idRole,
+                            name: "Administrador Empresa",
+                            description: "Para ver empresas",
+                            composite: true,
+                            clientRole: false,
+                            containerId: "infovisual"
+                          }
+                        ];
+                    }else{
+                        roleToAdd = [
+                          {
+                            id: idRole,
+                            name: "Administrador",
+                            description: "Para ver usuarios",
+                            composite: true,
+                            clientRole: false,
+                            containerId: "infovisual"
+                          }
+                        ];
+                    }
+                    console.log(roleToAdd);
+                    console.log('usuario'+$scope.user.id);
+        
+                    $http.post(authUrl + '/admin/realms/' + realm.realm + '/users/' + $scope.user.id + '/role-mappings/realm', roleToAdd);
+                    /**Fin seccion agregada por infovisual*/
+                }
+            }else
+            {
+                Notifications.error("La Identificación  ingresada ya se encuentra asociada");
+            }
+      });  
     };
 
     function convertAttributeValuesToLists() {
@@ -647,9 +665,9 @@ module.controller('UserDetailCtrl', function($scope, realm, user, BruteForceUser
 	$scope.$watch('user.attributes.type_user', function(value) {
 		idRole = value;
 		if(value == '94ce09a7-6dc7-4ace-a51a-e2d6855d60a6'){
-			$scope.showCompany = true;
+			$scope.showCompany = true;			
 		}else{
-			$scope.showCompany = false;
+			$scope.showCompany = false;			
 		}
 	});
 	/**Fin seccion agregada por infovisual*/
