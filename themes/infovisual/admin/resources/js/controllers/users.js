@@ -540,6 +540,12 @@ module.controller('UserDetailCtrl', function($scope, realm, user, BruteForceUser
                 Notifications.success("El usuario ha sido creado.");
             });
         } else {
+			/**Seccion agregada por infovisual*/
+			//Si se cambia a rol administrador entonces se le desasocia la empresa
+			if($scope.user.attributes.type_user == "3edee2ae-5f34-430f-bab7-638658034b1d"){
+				delete $scope.user.attributes["company"];
+			}
+			/**Fin seccion agregada por infovisual*/
             User.update({
                 realm: realm.realm,
                 userId: $scope.user.id
@@ -616,7 +622,9 @@ module.controller('UserDetailCtrl', function($scope, realm, user, BruteForceUser
     };
 
     $scope.addAttribute = function() {
+		console.log('se agrega atributo');
         $scope.user.attributes[$scope.newAttribute.key] = $scope.newAttribute.value;
+		console.log($scope.user.attributes)
         delete $scope.newAttribute;
     }
 
@@ -640,10 +648,8 @@ module.controller('UserDetailCtrl', function($scope, realm, user, BruteForceUser
 		idRole = value;
 		if(value == '94ce09a7-6dc7-4ace-a51a-e2d6855d60a6'){
 			$scope.showCompany = true;
-			console.log(idRole);
 		}else{
 			$scope.showCompany = false;
-			console.log(idRole);
 		}
 	});
 	/**Fin seccion agregada por infovisual*/
