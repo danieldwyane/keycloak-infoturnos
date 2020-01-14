@@ -162,6 +162,16 @@ module.factory('Notifications', function($rootScope, $timeout) {
 
         notifications.current.type = type;
         notifications.current.header = header;
+        if(message=="User exists with same username")
+        {
+            message="Nombre de usuario ya registrado"
+        }
+       
+        if(message=="User exists with same email")
+        {
+            message="El email del usuario ya registrado"
+        }
+        
         notifications.current.message = message;
         notifications.current.display = true;
 
