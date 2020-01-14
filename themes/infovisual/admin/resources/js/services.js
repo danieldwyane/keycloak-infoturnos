@@ -68,7 +68,7 @@ module.service('Dialog', function($modal) {
                 cssClass: 'btn btn-danger'
             },
             cancel: {
-                label: 'Cancel',
+                label: 'Cancelar',
                 cssClass: 'btn btn-default'
             }
         }
@@ -83,7 +83,7 @@ module.service('Dialog', function($modal) {
                 cssClass: 'btn btn-danger'
             },
             cancel: {
-                label: 'Cancel',
+                label: 'Cancelar',
                 cssClass: 'btn btn-default'
             }
         }
@@ -177,7 +177,7 @@ module.factory('Notifications', function($rootScope, $timeout) {
     };
 
     notifications.success = function(message) {
-        notifications.message("success", "Success!", message);
+        notifications.message("success", "Exitoso!", message);
     };
 
     notifications.error = function(message) {
@@ -185,7 +185,7 @@ module.factory('Notifications', function($rootScope, $timeout) {
     };
 
     notifications.warn = function(message) {
-        notifications.message("warning", "Warning!", message);
+        notifications.message("warning", "Advertencia!", message);
     };
 
     return notifications;
@@ -1835,7 +1835,7 @@ module.service('SelectRoleDialog', function($modal) {
                 cssClass: 'btn btn-danger'
             },
             cancel: {
-                label: 'Cancel',
+                label: 'Cancelar',
                 cssClass: 'btn btn-default'
             }
         }
@@ -1850,7 +1850,7 @@ module.service('SelectRoleDialog', function($modal) {
                 cssClass: 'btn btn-danger'
             },
             cancel: {
-                label: 'Cancel',
+                label: 'Cancelar',
                 cssClass: 'btn btn-default'
             }
         }

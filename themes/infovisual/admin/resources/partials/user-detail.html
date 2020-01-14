@@ -76,8 +76,8 @@
                 <label class="col-md-2 control-label" for="identity">{{:: 'identity' | translate}} <span class="required" data-ng-show="create">*</span></label>
 
                 <div class="col-md-6">
-                    <input class="form-control" type="text" name="user.attributes.identidad" id="user.attributes.identidad" required
-							ng-model="user.attributes.identidad">
+                    <input class="form-control" type="number" name="user.attributes.identidad" id="user.attributes.identidad" required
+							ng-model="user.attributes.identidad" ng-pattern="/^[0-9]{1,17}$/">
                 </div>
             </div>
 			<!--Fin seccion agregada por infovisual-->

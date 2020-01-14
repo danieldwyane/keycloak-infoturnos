@@ -1113,3 +1113,4 @@ Caused by: org.postgresql.util.PSQLException: This connection has been closed.
 2020-01-13 14:58:41,582 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0060: Http management interface listening on http://127.0.0.1:9990/management
 2020-01-13 14:58:41,582 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0051: Admin console listening on http://127.0.0.1:9990
 2020-01-13 14:58:41,583 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0025: Keycloak 8.0.1 (WildFly Core 10.0.3.Final) started in 68192ms - Started 598 of 893 services (602 services are lazy, passive or on-demand)
+2020-01-13 18:48:48,537 WARN  [org.keycloak.events] (default task-109) type=REFRESH_TOKEN_ERROR, realmId=master, clientId=security-admin-console, userId=null, ipAddress=127.0.0.1, error=invalid_token, grant_type=refresh_token, client_auth_method=client-secret

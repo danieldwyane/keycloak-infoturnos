@@ -537,7 +537,7 @@ module.controller('UserDetailCtrl', function($scope, realm, user, BruteForceUser
 				/**Fin seccion agregada por infovisual*/
 
                 $location.url("/realms/" + realm.realm + "/users/" + id);
-                Notifications.success("The user has been created.");
+                Notifications.success("El usuario ha sido creado.");
             });
         } else {
             User.update({
@@ -547,7 +547,7 @@ module.controller('UserDetailCtrl', function($scope, realm, user, BruteForceUser
                 $scope.changed = false;
                 convertAttributeValuesToString($scope.user);
                 user = angular.copy($scope.user);
-                Notifications.success("Your changes have been saved to the user.");
+                Notifications.success("Tus cambios han sido guardados.");
             });
 			
 			/**Seccion agregada por infovisual*/
@@ -791,17 +791,17 @@ module.controller('UserCredentialsCtrl', function($scope, realm, user, $route, R
 
         if ($scope.pwdChange) {
             if ($scope.password != $scope.confirmPassword) {
-                Notifications.error("Password and confirmation does not match.");
+                Notifications.error("Contraseña y confirmación no coinciden.");
                 return;
             }
         }
 
-        var msgTitle = 'Set password';
-        var msg = 'Are you sure you want to set a password for the user?';
+        var msgTitle = 'Cambiar contraseña';
+        var msg = 'Estás seguro de que quieres cambiar la contraseña al usuario?';
 
         Dialog.confirm(msgTitle, msg, function() {
             UserCredentials.resetPassword({ realm: realm.realm, userId: user.id }, { type : "password", value : $scope.password, temporary: $scope.temporaryPassword }, function() {
-                Notifications.success("The password has been set");
+                Notifications.success("La contraseña ha sido cambiada");
                 $scope.password = null;
                 $scope.confirmPassword = null;
                 $route.reload();
