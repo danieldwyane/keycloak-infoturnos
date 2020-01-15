@@ -605,7 +605,7 @@ module.controller('UserDetailCtrl', function($scope, realm, user, BruteForceUser
                 }
             }else
             {
-                Notifications.error("La Identificación  ingresada ya se encuentra asociada");
+                Notifications.error("La Identificación ingresada ya se encuentra asociada");
             }
       });  
     };
@@ -653,7 +653,6 @@ module.controller('UserDetailCtrl', function($scope, realm, user, BruteForceUser
 	/**Seccion agregada por infovisual*/
     $http.get("http://172.16.11.98:8060/company/companies/")
 	  .then(function(response) {
-		  response.data.push({id:0,company:"Seleccione..."});
 		  $scope.realm.companies = response.data;
 		  for(var i=0; i<response.data.length; i++){
 			if(response.data[i].id == user.attributes.company){

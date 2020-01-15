@@ -170,6 +170,11 @@ module.factory('Notifications', function($rootScope, $timeout) {
         if(message=="User exists with same email")
         {
             message="El email del usuario ya registrado"
+        }        
+		
+		if(message=="Could not update user!")
+        {
+            message="No se pudo actualizar el usuario!"
         }
         
         notifications.current.message = message;
