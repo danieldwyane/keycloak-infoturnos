@@ -303,8 +303,8 @@ module.controller('UserListCtrl', function($scope, realm, User, UserSearchState,
             urlBusqueda ="&search="+ $scope.query.search;
         }
         $http.get(authUrl + '/admin/realms/' + realm.realm + '/users?realm=infovisual'+urlBusqueda)
-        .then(function(response) {           
-            $scope.usuarios=response.data;
+        .then(function(response) {                  
+            $scope.usuarios=response.data;            
             let usuariosFiltradosEmpresa= new Array();
             $scope.usuarios.forEach(usuario => { 
                 if(usuario.attributes!=undefined&&usuario.attributes.company!=undefined)
@@ -356,6 +356,16 @@ module.controller('UserListCtrl', function($scope, realm, User, UserSearchState,
             });
         });
     }; 
+
+    $scope.Habilitar = function(user) {
+        user.enabled=!user.enabled;
+        $http.put(authUrl + '/admin/realms/' + realm.realm + '/users/'+user.id,user)
+        .then(function(response) {                  
+            Notifications.success("Usuario "+(user.enabled?"Habilitado":"Deshabilitado"));           
+            $scope.searchQuery();
+        });
+       
+    };     
 });
 
 

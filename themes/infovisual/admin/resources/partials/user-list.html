@@ -32,7 +32,7 @@
                     <button id="viewAllUsers" class="btn btn-default" ng-click="query.search = null; firstPage()">{{:: 'view-all-users' | translate}}</button>
 
                     <div class="pull-right" data-ng-show="access.manageUsers">
-                        <button data-ng-click="unlockUsers()" class="btn btn-default">{{:: 'unlock-users' | translate}}</button>
+                        <!-- <button data-ng-click="unlockUsers()" class="btn btn-default">{{:: 'unlock-users' | translate}}</button> -->
                         <a id="createUser" class="btn btn-default" href="#/create/user/{{realm.realm}}">{{:: 'add-user' | translate}}</a>
                     </div>
                 </div>
@@ -71,8 +71,8 @@
             <td class="clip">{{user.attributes.company[0]}}</td>
             <td class="clip">{{user.attributes.identidad[0]}}</td>
             <td class="kc-action-cell" kc-open="/realms/{{realm.realm}}/users/{{user.id}}">{{:: 'edit' | translate}}</td>
-            <td data-ng-show="serverInfo.featureEnabled('IMPERSONATION') && access.impersonation" class="kc-action-cell" data-ng-click="impersonate(user.id)">{{:: 'impersonate' | translate}}</td>
-            <td data-ng-show="user.access.manage" class="kc-action-cell" data-ng-click="removeUser(user)">{{:: 'delete' | translate}}</td>
+            <td data-ng-show="serverInfo.featureEnabled('IMPERSONATION') && access.impersonation" class="kc-action-cell" data-ng-click="impersonate(user.id)">{{:: 'impersonate' | translate}}</td>            
+            <td data-ng-show="user.access.manage" class="kc-action-cell" data-ng-click="Habilitar(user)">{{:: (user.enabled)?'enabled':'disabled' | translate}}</td>            
         </tr>
         <tr data-ng-show="!users || users.length == 0">
             <td class="text-muted" data-ng-show="!users">{{:: 'users.instruction' | translate}}</td>
